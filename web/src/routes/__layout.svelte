@@ -36,6 +36,6 @@
 <NewVersionNotification />
 <Notifications />
 <NavBar
-  links={[{href: '/', title: 'Search For Loot'}, {href: 'wallet', title: 'Wallet'}, {href: 'transmute', title: 'Transmute'}, {href: 'about', title: 'About'}]} />
+  links={[{href: '', title: 'Search For Loot'}, {href: 'wallet', title: 'Wallet'}, {href: 'transmute', title: 'Transmute'}, {href: 'about', title: 'About'}]} />
 <slot />
 
