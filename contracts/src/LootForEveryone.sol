@@ -44,7 +44,7 @@ contract LootForEveryone is ERC721Base {
         return _tokenURI(id);
     }
 
-    ///@notice get all info in the minimum way
+    ///@notice get all info in the minimum calls
     function getTokenDataOfOwner(
         address owner,
         uint256 start,
@@ -75,6 +75,7 @@ contract LootForEveryone is ERC721Base {
         }
     }
 
+    ///@notice get all info in the minimum calls
     function getTokenDataForIds(uint256[] memory ids) external view returns (TokenDataToClaim[] memory tokens) {
         tokens = new TokenDataToClaim[](ids.length);
         for (uint256 i = 0; i < ids.length; i++) {
@@ -94,6 +95,7 @@ contract LootForEveryone is ERC721Base {
         _safeTransferFrom(signer, to, uint256(signer), false, "");
     }
 
+    ///@notice return true if the loot has been picked up or been transfered at least once
     function isLootPicked(uint256 id) external view returns(bool) {
         (address owner, bool registered) = _ownerOfAndRegistered(id);
         require(owner != address(0), "NONEXISTENT_TOKEN");
@@ -108,87 +110,6 @@ contract LootForEveryone is ERC721Base {
         require(!registered, "ALREADY_CALIMED"); // unlikely to happen, would need to find the private key for its adresss (< 8001)
         _safeTransferFrom(address(id), to, id, false, "");
     }
-
-    function weaponComponents(uint256 id) external  view returns (uint256[5] memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.weaponComponents(address(id));
-    }
-
-    function chestComponents(uint256 id) external view returns (uint256[5] memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.chestComponents(address(id));
-    }
-
-    function headComponents(uint256 id) external view returns (uint256[5] memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.headComponents(address(id));
-    }
-
-    function waistComponents(uint256 id) external view returns (uint256[5] memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.waistComponents(address(id));
-    }
-
-    function footComponents(uint256 id) external view returns (uint256[5] memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.footComponents(address(id));
-    }
-
-    function handComponents(uint256 id) external view returns (uint256[5] memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.handComponents(address(id));
-    }
-
-    function neckComponents(uint256 id) external view returns (uint256[5] memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.neckComponents(address(id));
-    }
-
-    function ringComponents(uint256 id) external view returns (uint256[5] memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.ringComponents(address(id));
-    }
-
-    function getWeapon(uint256 id) external view returns (string memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.getWeapon(address(id));
-    }
-
-    function getChest(uint256 id) external view returns (string memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.getChest(address(id));
-    }
-
-    function getHead(uint256 id) external view returns (string memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.getHead(address(id));
-    }
-
-    function getWaist(uint256 id) external view returns (string memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.getWaist(address(id));
-    }
-
-    function getFoot(uint256 id) external view returns (string memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.getFoot(address(id));
-    }
-
-    function getHand(uint256 id) external view returns (string memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.getHand(address(id));
-    }
-
-    function getNeck(uint256 id) external view returns (string memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.getNeck(address(id));
-    }
-
-    function getRing(uint256 id) external view returns (string memory) {
-        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
-        return _syntheticLoot.getRing(address(id));
-    }
-
 
     // -------------------------------------------------------------------------------------------------
     // INTERNAL
