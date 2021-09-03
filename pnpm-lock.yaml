@@ -50,6 +50,9 @@ importers:
 
   contracts:
     specifiers:
+      '@ethersproject/bytes': ^5.4.0
+      '@ethersproject/solidity': ^5.4.0
+      '@ethersproject/wallet': ^5.4.0
       '@nomiclabs/hardhat-ethers': npm:hardhat-deploy-ethers
       '@openzeppelin/contracts': ^3.4.1
       '@typechain/ethers-v5': ^7.0.1
@@ -65,6 +68,7 @@ importers:
       dotenv: ^10.0.0
       eslint: ^7.32.0
       eslint-config-prettier: ^8.3.0
+      ethereum-contracts-test-suite: ^0.1.0
       ethers: ^5.4.6
       fs-extra: ^10.0.0
       hardhat: ^2.6.2
@@ -82,9 +86,12 @@ importers:
       typechain: ^5.1.2
       typescript: ^4.4.2
     devDependencies:
+      '@ethersproject/bytes': 5.4.0
+      '@ethersproject/solidity': 5.4.0
+      '@ethersproject/wallet': 5.4.0
       '@nomiclabs/hardhat-ethers': /hardhat-deploy-ethers/0.3.0-beta.10_ethers@5.4.6+hardhat@2.6.2
       '@openzeppelin/contracts': 3.4.1
-      '@typechain/ethers-v5': 7.0.1_58efdc72e71b87d5c38038473436be57
+      '@typechain/ethers-v5': 7.0.1_ad7fdf257daecec8cad44fc162d92614
       '@typechain/hardhat': 2.3.0_hardhat@2.6.2+typechain@5.1.2
       '@types/chai': 4.2.21
       '@types/mocha': 9.0.0
@@ -97,6 +104,7 @@ importers:
       dotenv: 10.0.0
       eslint: 7.32.0
       eslint-config-prettier: 8.3.0_eslint@7.32.0
+      ethereum-contracts-test-suite: 0.1.0
       ethers: 5.4.6
       fs-extra: 10.0.0
       hardhat: 2.6.2
@@ -1692,7 +1700,7 @@ packages:
     resolution: {integrity: sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==}
     dev: true
 
-  /@typechain/ethers-v5/7.0.1_58efdc72e71b87d5c38038473436be57:
+  /@typechain/ethers-v5/7.0.1_ad7fdf257daecec8cad44fc162d92614:
     resolution: {integrity: sha512-mXEJ7LG0pOYO+MRPkHtbf30Ey9X2KAsU0wkeoVvjQIn7iAY6tB3k3s+82bbmJAUMyENbQ04RDOZit36CgSG6Gg==}
     peerDependencies:
       '@ethersproject/abi': ^5.0.0
@@ -1702,6 +1710,7 @@ packages:
       typechain: ^5.0.0
       typescript: '>=4.0.0'
     dependencies:
+      '@ethersproject/bytes': 5.4.0
       ethers: 5.4.6
       typechain: 5.1.2_typescript@4.4.2
       typescript: 4.4.2
@@ -4668,6 +4677,10 @@ packages:
     resolution: {integrity: sha512-rxJ5OFN3RwjQxDcFP2Z5+Q9ho4eIdEmSc2ht0fCu8Se9nbXjZ7/031uXoUYJ87KHCOdVeiUuwSnoS7hmYAGVHA==}
     dependencies:
       js-sha3: 0.8.0
+    dev: true
+
+  /ethereum-contracts-test-suite/0.1.0:
+    resolution: {integrity: sha512-oggoifytuDMEGWmaTFmKLrUMDyGqv6ieNzUbmz6Oha5+vmhT4/qGMwJXbJlFlPOKF+4HGjO48zqehZ3QjHLYsQ==}
     dev: true
 
   /ethereum-cryptography/0.1.3:

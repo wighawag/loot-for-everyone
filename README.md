@@ -126,11 +126,6 @@ If network is a live network, a mnemonic and url will be required. the following
 - `ETH_NODE_URI_<network name>`
   <br/><br/>
 
-`pnpm seed [<network>]`
-
-This will execute the contracts/scripts/seed.ts on the network specified
-<br/><br/>
-
 `pnpm web:dev [<network>]`
 
 This will spawn a vite dev server for the webapp, connected to the specified network
@@ -179,11 +174,11 @@ This spawn docker services: an ethereum node
 <br/><br/>
 
 `pnpm dev`
-This assume external service run. It will spawn a web server, watch/build the common library, the web app, the contracts. It will also seed the contracts with some data.
+This assume external service run. It will spawn a web server, watch/build the common library, the web app, the contracts.
 <br/><br/>
 
 `pnpm start`
-It will spawn everything needed to get started, external services, a web server, watch/build the common library, the web app, the contracts. It will also seed the contracts with some data.
+It will spawn everything needed to get started, external services, a web server, watch/build the common library, the web app, the contracts.
 <br/><br/>
 
 # env variables required for full deployment

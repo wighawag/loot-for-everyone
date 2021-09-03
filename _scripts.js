@@ -104,15 +104,6 @@ async function performAction(rawArgs) {
     }
     const env = getEnv(network);
     await execute(`${env}npm --prefix contracts run export ${network} -- ../web/src/lib/contracts.json`);
-  } else if (firstArg === 'contracts:seed') {
-    const {fixedArgs, extra, options} = parseArgs(args, 1, {waitContracts: 'boolean'});
-    const network = fixedArgs[0] || 'localhost';
-    const env = getEnv(network);
-    if (options.waitContracts) {
-      console.log(`waiting for web/src/lib/contracts.json...`);
-      await execute(`wait-on web/src/lib/contracts.json`);
-    }
-    await execute(`${env}npm --prefix contracts run execute ${network} scripts/seed.ts ${extra.join(' ')}`);
   } else if (firstArg === 'contracts:execute') {
     const {fixedArgs, extra, options} = parseArgs(args, 1, {waitContracts: 'boolean'});
     const network = fixedArgs[0] || 'localhost';
@@ -174,13 +165,11 @@ async function performAction(rawArgs) {
     execute(`newsh "npm run web:dev -- --skipContracts"`);
     execute(`newsh "npm run contracts:dev -- --reset"`);
     await performAction(['common:build']);
-    await performAction(['contracts:seed', 'localhost', '--waitContracts']);
   } else if (firstArg === 'start') {
     execute(`newsh "npm run common:dev"`);
     execute(`newsh "npm run web:dev -- --skipContracts"`);
     execute(`newsh "npm run contracts:dev -- --reset"`);
     await performAction(['common:build']);
-    await performAction(['contracts:seed', 'localhost', '--waitContracts']);
   }
 }
 
