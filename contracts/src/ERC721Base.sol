@@ -171,10 +171,7 @@ abstract contract ERC721Base is IERC165, IERC721 {
                 "UNAUTHORIZED_TRANSFER"
             );
         }
-        _transferFrom(from, to, id, registered);
-        if (to.isContract()) {
-            require(_checkOnERC721Received(msg.sender, from, to, id, data), "ERC721_TRANSFER_REJECTED");
-        }
+        _safeTransferFrom(from, to, id, registered, data);
     }
 
     /// @notice Check if the contract supports an interface.
@@ -186,6 +183,19 @@ abstract contract ERC721Base is IERC165, IERC721 {
     /// @return Whether the interface is supported.
     function supportsInterface(bytes4 id) public pure virtual override returns (bool) {
         return id == 0x01ffc9a7 || id == 0x80ac58cd || id == 0x5b5e139f || id == 0x780e9d63;
+    }
+
+    function _safeTransferFrom(
+        address from,
+        address to,
+        uint256 id,
+        bool alreadyRegistered,
+        bytes memory data
+    ) internal {
+        _transferFrom(from, to, id, alreadyRegistered);
+        if (to.isContract()) {
+            require(_checkOnERC721Received(msg.sender, from, to, id, data), "ERC721_TRANSFER_REJECTED");
+        }
     }
 
     function _transferFrom(

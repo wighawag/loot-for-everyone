@@ -4,6 +4,7 @@ pragma experimental ABIEncoderV2;
 
 import "./ERC721Base.sol";
 import "./interfaces/ISyntheticLoot.sol";
+import "./interfaces/ILoot.sol";
 import "@openzeppelin/contracts/cryptography/ECDSA.sol";
 
 contract LootForEveryone is ERC721Base {
@@ -21,9 +22,11 @@ contract LootForEveryone is ERC721Base {
         bool claimed;
     }
 
+    ILoot private immutable _loot;
     ISyntheticLoot private immutable _syntheticLoot;
 
-    constructor(ISyntheticLoot syntheticLoot) {
+    constructor(ILoot loot, ISyntheticLoot syntheticLoot) {
+        _loot = loot;
         _syntheticLoot = syntheticLoot;
     }
 
@@ -88,71 +91,101 @@ contract LootForEveryone is ERC721Base {
         address signer = hashedData.toEthSignedMessageHash().recover(signature);
         (, bool registered) = _ownerOfAndRegistered(uint256(signer));
         require(!registered, "ALREADY_CALIMED");
-        _transferFrom(signer, to, uint256(signer), false);
+        _safeTransferFrom(signer, to, uint256(signer), false, "");
+    }
+
+    function isLootPicked(uint256 id) external view returns(bool) {
+        (address owner, bool registered) = _ownerOfAndRegistered(id);
+        require(owner != address(0), "NONEXISTENT_TOKEN");
+        return registered;
+    }
+
+    /// @notice burn your original but limited loot so that you get a LootForEveryone like everyone else
+    function transmute(uint256 id, address to) external {
+        require(to != address(0), "NOT_TO_ZEROADDRESS");
+        _loot.transferFrom(msg.sender, address(this), id);
+        (, bool registered) = _ownerOfAndRegistered(id);
+        require(!registered, "ALREADY_CALIMED"); // unlikely to happen, would need to find the private key for its adresss (< 8001)
+        _safeTransferFrom(address(id), to, id, false, "");
     }
 
     function weaponComponents(uint256 id) external  view returns (uint256[5] memory) {
-        require(uint256(address(id)) == id, "NONEXISTENT_TOKEN");
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.weaponComponents(address(id));
     }
 
     function chestComponents(uint256 id) external view returns (uint256[5] memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.chestComponents(address(id));
     }
 
     function headComponents(uint256 id) external view returns (uint256[5] memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.headComponents(address(id));
     }
 
     function waistComponents(uint256 id) external view returns (uint256[5] memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.waistComponents(address(id));
     }
 
     function footComponents(uint256 id) external view returns (uint256[5] memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.footComponents(address(id));
     }
 
     function handComponents(uint256 id) external view returns (uint256[5] memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.handComponents(address(id));
     }
 
     function neckComponents(uint256 id) external view returns (uint256[5] memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.neckComponents(address(id));
     }
 
     function ringComponents(uint256 id) external view returns (uint256[5] memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.ringComponents(address(id));
     }
 
     function getWeapon(uint256 id) external view returns (string memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.getWeapon(address(id));
     }
 
     function getChest(uint256 id) external view returns (string memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.getChest(address(id));
     }
 
     function getHead(uint256 id) external view returns (string memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.getHead(address(id));
     }
 
     function getWaist(uint256 id) external view returns (string memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.getWaist(address(id));
     }
 
     function getFoot(uint256 id) external view returns (string memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.getFoot(address(id));
     }
 
     function getHand(uint256 id) external view returns (string memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.getHand(address(id));
     }
 
     function getNeck(uint256 id) external view returns (string memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.getNeck(address(id));
     }
 
     function getRing(uint256 id) external view returns (string memory) {
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         return _syntheticLoot.getRing(address(id));
     }
 
@@ -163,6 +196,9 @@ contract LootForEveryone is ERC721Base {
 
     function _tokenURI(uint256 id) internal view returns (string memory) {
         require(uint256(address(id)) == id, "NONEXISTENT_TOKEN");
+        if (id < 8001) {
+            return _loot.tokenURI(id);
+        }
         return _syntheticLoot.tokenURI(address(id));
     }
 }
