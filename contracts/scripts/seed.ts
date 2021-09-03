@@ -1,15 +1,5 @@
 import {getUnnamedAccounts, ethers} from 'hardhat';
 
-const messages = [
-  'Hello',
-  '你好',
-  'سلام',
-  'здравствуйте',
-  'Habari',
-  'Bonjour',
-  'नमस्ते',
-];
-
 async function waitFor<T>(p: Promise<{wait: () => Promise<T>}>): Promise<T> {
   const tx = await p;
   try {
@@ -20,14 +10,18 @@ async function waitFor<T>(p: Promise<{wait: () => Promise<T>}>): Promise<T> {
 
 async function main() {
   const others = await getUnnamedAccounts();
-  for (let i = 0; i < messages.length; i++) {
+  let counter = 1;
+  for (let i = 0; i < 3; i++) {
     const sender = others[i];
+    console.log({sender});
     if (sender) {
-      const greetingsRegistryContract = await ethers.getContract(
-        'GreetingsRegistry',
-        sender
-      );
-      await waitFor(greetingsRegistryContract.setMessage(messages[i]));
+      const Loot = await ethers.getContract('Loot', sender);
+      await waitFor(Loot.claim(counter));
+      counter++;
+      await waitFor(Loot.claim(counter));
+      counter++;
+      await waitFor(Loot.claim(counter));
+      counter++;
     }
   }
 }

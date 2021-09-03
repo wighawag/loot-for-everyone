@@ -2,7 +2,7 @@
   import WalletAccess from '$lib/WalletAccess.svelte';
   import {randomTokens} from '$lib/stores/randomTokens';
   import pickLootFlow from '$lib/stores/pickLootFlow';
-  import {wallet, flow} from '$lib/stores/wallet';
+  import {wallet, flow, chain} from '$lib/stores/wallet';
   import {BigNumber} from '@ethersproject/bignumber';
   import Modal from '$lib/components/Modal.svelte';
   import { onMount } from 'svelte';
@@ -56,7 +56,15 @@
 
   <section
     class="py-8 px-4 w-full h-full mx-auto flex items-center justify-center text-black dark:text-white ">
-    {#if !$nfts}
+    {#if $chain.state !== 'Connected' && $chain.state !== 'Ready'}
+      <p>
+        Please connect your wallet to search for loots.
+      </p>
+
+      <button
+          class="text-center m-2 text-xs md:text-base font-black text-yellow-400 border border-yellow-500 p-1"
+          on:click={() => flow.connect()}>Connect</button>
+    {:else if !$nfts}
       <div>Generating Loot...</div>
     {:else if $nfts.state === 'Idle'}
       <div>Loot not loaded</div>
@@ -66,21 +74,23 @@
       <div>Loading Loot...</div>
     {:else}
       <ul
-        class="grid-cols-2 grid sm:grid-cols-4 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-6 lg:gap-x-8">
+        class="grid-cols-1 grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8">
         {#each $nfts.tokens as nft, index}
           <li>
             <div id={nft.id} class="p-8">
-              <div class="aspect-w-3 aspect-h-2">
+              <div class="aspect-w-30 aspect-h-20">
                 {#if nft.error}
                   Error:
                   {nft.error}
                 {:else if nft.image}
                   <img
                     on:click={() => mint(nft)}
-                    style={`image-rendering: pixelated; ${nft.minted ? 'filter: grayscale(100%);' : ''}`}
-                    class={`object-contain h-full w-full ${nft.minted ? '' : 'cursor-pointer'}`}
+                    style={`image-rendering: pixelated; ${nft.minted ? 'filter: grayscale(100%); opacity: 50%' : ''}`}
+                    class={`border-2  ${nft.minted ? 'border-red-700' : 'cursor-pointer border-white'}`}
                     alt={nft.name}
-                    src={nft.image} />
+                    src={nft.image}
+                    width="400px"
+                    height="400px" />
                 {:else}
                   <p class="">{nft.name}</p>
                 {/if}
@@ -107,7 +117,7 @@
                             stroke-width="2"
                             d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
                         </svg>
-                        <span class="text-xs md:text-base ml-3">Mint It</span>
+                        <span class="text-xs md:text-base ml-3">Pick It Up</span>
                       </button>
                     </div>
                   </div>
@@ -115,7 +125,7 @@
               <!-- {/if} -->
             </div>
           </li>
-        {:else}Error: No Mandala could be generated{/each}
+        {:else}Error: No Loot could be generated{/each}
       </ul>
     {/if}
   </section>
@@ -133,7 +143,7 @@
           <h2>Pick Loot</h2>
           <button
             class="mt-5 p-1 border border-yellow-500"
-            label="Mint"
+            label="Pick The Loot"
             on:click={() => pickLootFlow.confirm()}>
             Confirm
           </button>

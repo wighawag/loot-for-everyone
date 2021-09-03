@@ -23,3 +23,10 @@ export async function setupUser<T extends {[contractName: string]: Contract}>(
   }
   return user as {address: string} & T;
 }
+
+export async function waitFor<T>(
+  p: Promise<{wait: () => Promise<T>}>
+): Promise<T> {
+  const tx = await p;
+  return tx.wait();
+}

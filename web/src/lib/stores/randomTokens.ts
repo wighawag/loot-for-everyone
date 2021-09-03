@@ -3,6 +3,8 @@ import {BigNumber} from '@ethersproject/bignumber';
 import {Wallet} from '@ethersproject/wallet';
 import {hexlify, hexZeroPad} from '@ethersproject/bytes';
 import {BaseStore} from '$lib/utils/stores';
+import { wallet } from './wallet';
+import { wait } from '$lib/utils';
 
 type NFT = {
   id: string;
@@ -97,25 +99,45 @@ export class RandomTokenStore extends BaseStore<NFTs> {
           .toHexString()
       );
       const id = wallet.address;
-      const tokenURI = ""; // TODO generateTokenURI(id, template19_bis);
-      const jsonStart = tokenURI.indexOf(',') + 1;
-      const jsonStr = `{"name": "sf", "description": "fsldsk"}`; //tokenURI.slice(jsonStart);
-      const json = JSON.parse(jsonStr);
       tokens.push({
         id,
-        tokenURI,
+        tokenURI: "",
         privateKey: wallet.privateKey,
-        name: json.name,
-        description: json.description,
-        image: json.image,
+        name: "Loading...",
+        description: "",
+        image: "",
         minted: this.claimTXs[id] ? true : false,
       });
+
+      this.setImage(id);
     }
     this.setPartial({tokens: this.$store.tokens.concat(tokens)});
   }
 
+  private async setImage(tokenId: string) {
+    while(!wallet.contracts) {
+      await wait(1);
+    }
+    if (wallet.contracts) {
+      const tokenURI = await wallet.contracts.LootForEveryone.tokenURI(tokenId);
+      const found = this.$store.tokens.find((v) => v.id === tokenId);
+      if (found) {
+        found.tokenURI = tokenURI;
+        const b64Start = tokenURI.indexOf(',') + 1;
+        const b64Str = tokenURI.slice(b64Start);
+        const jsonStr = atob(b64Str);
+        const json = JSON.parse(jsonStr);
+        found.name = json.name;
+        found.description = json.description;
+        found.image = json.image;
+        this.setPartial({tokens: this.$store.tokens});
+      }
+    }
+
+  }
+
   reset(): void {
-    localStorage.clear();
+    localStorage.removeItem('_loot_generated')
     location.reload();
   }
 
@@ -168,19 +190,16 @@ export class RandomTokenStore extends BaseStore<NFTs> {
         hexZeroPad(BigNumber.from(data.random).add(i).toHexString(), 40)
       );
       const id = wallet.address;
-      const tokenURI = ``; // TODO generateTokenURI(id, template19_bis);
-      const jsonStart = tokenURI.indexOf(',') + 1;
-      const jsonStr = `{"name": "sf", "description": "fsldsk"}`; //tokenURI.slice(jsonStart);
-      const json = JSON.parse(jsonStr);
       tokens.push({
         id,
-        tokenURI,
+        tokenURI: "",
         privateKey: wallet.privateKey,
-        name: json.name,
-        description: json.description,
-        image: json.image,
+        name: "Loading...",
+        description: "",
+        image: "",
         minted: data.claimTXs[id] ? true : false,
       });
+      this.setImage(id);
       // console.log(tokens[tokens.length -1])
     }
 

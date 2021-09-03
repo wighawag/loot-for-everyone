@@ -1,8 +1,8 @@
 <script lang="ts">
   import '../service-worker-handler';
   import '../global.css';
-  // import {url} from '$lib/utils/url';
-  // import NavBar from '$lib/components/navigation/NavBar.svelte';
+  import {url} from '$lib/utils/url';
+  import NavBar from '$lib/components/navigation/NavBar.svelte';
   import Notifications from '$lib/components/notification/Notifications.svelte';
   import NoInstallPrompt from '$lib/components/NoInstallPrompt.svelte';
   import NewVersionNotification from '$lib/components/NewVersionNotification.svelte';
@@ -34,6 +34,8 @@
 
 <NoInstallPrompt />
 <NewVersionNotification />
-
-<slot />
 <Notifications />
+<NavBar
+  links={[{href: '/', title: 'Search For Loot'}, {href: 'wallet', title: 'Wallet'}, {href: 'transmute', title: 'Transmute'}, {href: 'about', title: 'About'}]} />
+<slot />
+

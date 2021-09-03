@@ -9,7 +9,7 @@ import {node_url, accounts} from './utils/network';
 
 const config: HardhatUserConfig = {
   solidity: {
-    compilers:[
+    compilers: [
       {
         version: '0.7.6',
         settings: {
@@ -27,12 +27,11 @@ const config: HardhatUserConfig = {
             runs: 200,
           },
         },
-      }
-    ]
+      },
+    ],
   },
   namedAccounts: {
     deployer: 0,
-    simpleERC20Beneficiary: 1,
   },
   networks: {
     hardhat: {
