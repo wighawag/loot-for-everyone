@@ -131,6 +131,7 @@ importers:
       '@ethersproject/contracts': ^5.4.1
       '@ethersproject/providers': ^5.4.5
       '@ethersproject/solidity': ^5.4.0
+      '@ethersproject/wallet': ^5.4.0
       '@sveltejs/adapter-node': next
       '@sveltejs/adapter-static': ^1.0.0-next.9
       '@sveltejs/kit': next
@@ -175,6 +176,7 @@ importers:
       '@ethersproject/contracts': 5.4.1
       '@ethersproject/providers': 5.4.5
       '@ethersproject/solidity': 5.4.0
+      '@ethersproject/wallet': 5.4.0
       '@urql/core': 2.3.1_graphql@15.5.2
       '@urql/devtools': 2.0.3_@urql+core@2.3.1+graphql@15.5.2
       graphql: 15.5.2
@@ -603,7 +605,6 @@ packages:
       '@ethersproject/strings': 5.4.0
       '@ethersproject/transactions': 5.4.0
       '@ethersproject/wordlists': 5.4.0
-    dev: true
 
   /@ethersproject/json-wallets/5.1.0:
     resolution: {integrity: sha512-00n2iBy27w8zrGZSiU762UOVuzCQZxUZxopsZC47++js6xUFuI74DHcJ5K/2pddlF1YBskvmMuboEu1geK8mnA==}
@@ -639,7 +640,6 @@ packages:
       '@ethersproject/transactions': 5.4.0
       aes-js: 3.0.0
       scrypt-js: 3.0.1
-    dev: true
 
   /@ethersproject/keccak256/5.1.0:
     resolution: {integrity: sha512-vrTB1W6AEYoadww5c9UyVJ2YcSiyIUTNDRccZIgwTmFFoSHwBtcvG1hqy9RzJ1T0bMdATbM9Hfx2mJ6H0i7Hig==}
@@ -684,7 +684,6 @@ packages:
     dependencies:
       '@ethersproject/bytes': 5.4.0
       '@ethersproject/sha2': 5.4.0
-    dev: true
 
   /@ethersproject/properties/5.1.0:
     resolution: {integrity: sha512-519KKTwgmH42AQL3+GFV3SX6khYEfHsvI6v8HYejlkigSDuqttdgVygFTDsGlofNFchhDwuclrxQnD5B0YLNMg==}
@@ -940,7 +939,6 @@ packages:
       '@ethersproject/signing-key': 5.4.0
       '@ethersproject/transactions': 5.4.0
       '@ethersproject/wordlists': 5.4.0
-    dev: true
 
   /@ethersproject/web/5.1.0:
     resolution: {integrity: sha512-LTeluWgTq04+RNqAkVhpydPcRZK/kKxD2Vy7PYGrAD27ABO9kTqTBKwiOuzTyAHKUQHfnvZbXmxBXJAGViSDcA==}
@@ -979,7 +977,6 @@ packages:
       '@ethersproject/logger': 5.4.1
       '@ethersproject/properties': 5.4.1
       '@ethersproject/strings': 5.4.0
-    dev: true
 
   /@graphql-typed-document-node/core/3.1.0_graphql@15.5.2:
     resolution: {integrity: sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==}
@@ -2149,7 +2146,6 @@ packages:
 
   /aes-js/3.0.0:
     resolution: {integrity: sha1-4h3xCtbCBTKVvLuNq0Cwnb6ofk0=}
-    dev: true
 
   /agent-base/6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -2467,7 +2463,7 @@ packages:
   /axios/0.21.1:
     resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
     dependencies:
-      follow-redirects: 1.14.3_debug@4.3.2
+      follow-redirects: 1.14.3
     transitivePeerDependencies:
       - debug
     dev: true
@@ -5184,6 +5180,16 @@ packages:
     resolution: {integrity: sha1-x7vxJN7ELJ0ZHPuUfQqXeN2YbAw=}
     dependencies:
       imul: 1.0.1
+    dev: true
+
+  /follow-redirects/1.14.3:
+    resolution: {integrity: sha512-3MkHxknWMUtb23apkgz/83fDoe+y+qr0TdgacGIA7bew+QLBo3vdgEN2xEsuXNivpFy4CyDhBBZnNZOtalmenw==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: true
 
   /follow-redirects/1.14.3_debug@4.3.2:
@@ -10062,7 +10068,6 @@ packages:
 
   /scrypt-js/3.0.1:
     resolution: {integrity: sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA==}
-    dev: true
 
   /secp256k1/3.8.0:
     resolution: {integrity: sha512-k5ke5avRZbtl9Tqx/SA7CbY3NF6Ro+Sj9cZxezFzuBlLDmyqPiL8hJJ+EmzD8Ig4LUDByHJ3/iPOVoRixs/hmw==}

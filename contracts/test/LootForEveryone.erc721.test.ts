@@ -35,7 +35,7 @@ erc721.runMochaTests('LootForEveryone ERC721', {}, async () => {
       to
     );
     const {tokenId, signature} = await randomMintSignature(to);
-    const tx = await LootForEveryoneContract.claim(to, signature);
+    const tx = await LootForEveryoneContract.pickLoot(to, signature);
     await tx.wait();
     return {
       tokenId,

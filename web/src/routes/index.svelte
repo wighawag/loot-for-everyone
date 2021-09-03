@@ -1,120 +1,144 @@
-<script context="module">
-  // export const hydrate = false;
-</script>
-
 <script lang="ts">
-  import NavButton from '$lib/components/navigation/NavButton.svelte';
-  import Feature from '$lib/components/Feature.svelte';
-  import {url} from '$lib/utils/url';
-  const name = 'Loot For Everyone';
+  import WalletAccess from '$lib/WalletAccess.svelte';
+  import {randomTokens} from '$lib/stores/randomTokens';
+  import pickLootFlow from '$lib/stores/pickLootFlow';
+  import {wallet, flow} from '$lib/stores/wallet';
+  import {BigNumber} from '@ethersproject/bignumber';
+  import Modal from '$lib/components/Modal.svelte';
+  import { onMount } from 'svelte';
 
-  function _select(elem: HTMLElement) {
-    const range = document.createRange();
-    const selection = window.getSelection();
-    range.selectNodeContents(elem);
-    console.log({selection: range.toString()});
-    (selection as any).removeAllRanges();
-    (selection as any).addRange(range);
+  function format(bn: BigNumber, numDecimals: number): number {
+    const precision = Math.pow(10, numDecimals);
+    const base = BigNumber.from('1000000000000000000').div(precision);
+    return bn.div(base).toNumber() / precision;
   }
-  function select(e: MouseEvent) {
-    _select(e.currentTarget as HTMLElement);
+
+  let nfts = randomTokens;
+  nfts.generate(32);
+
+  function mint(nft: {id: string; privateKey: string}) {
+    pickLootFlow.mint(nft);
   }
+
+  onMount(() => {
+    window.onscroll = function () {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - window.innerHeight / 3
+      ) {
+        nfts.loadMore(32);
+      }
+    };
+  });
 </script>
 
-<section class="py-8 px-4 text-center">
-  <div class="max-w-auto md:max-w-lg mx-auto">
-    <img
-      class="mb-8 mx-auto"
-      src="images/logo.svg"
-      alt={name}
-      style="width:256px;height:256px;"
-      width="256px"
-      height="256px"
-    />
-    <h2 class="text-5xl mb-2 font-heading text-black dark:text-white">
-      {name}
-    </h2>
-    <p class="m-6 text-gray-500 dark:text-gray-400 text-xl">
-      Production-Ready Template To Build Decentralised Applications
+<WalletAccess>
+
+  <div
+    class="w-full h-full mx-auto flex justify-between text-black dark:text-white ">
+    <!-- <p class="m-2 text-xs md:text-base font-black text-yellow-400">+ Refunded Buffer: {($curve.supply && $curve.currentPrice) ? format(computeBuffer($curve.supply, $curve.currentPrice),4) + ' ETH' : 'loading'}</p> -->
+    <button
+      class="m-2 text-xs md:text-base font-black text-yellow-400 border border-yellow-500 p-1"
+      on:click={() => nfts.reset()}>reset batch</button>
+  </div>
+
+  <div
+    class="w-full h-full text-xs text-center md:text-base mx-auto flex flex-col items-center justify-center text-black dark:text-white ">
+    <p class="px-4 pt-4">
+      Loot For Everyone
     </p>
-    <div class="max-w-md mx-auto pt-1 mt-5 space-y-3 md:mt-8 md:space-y-5">
-      <div class="space-y-5 sm:flex sm:justify-center sm:space-y-0 sm:space-x-3">
-        <NavButton class="big secondary" href={url('demo/')} label="Try the Demo!">Demo</NavButton>
-        <NavButton
-          blank={true}
-          class="big secondary"
-          href="https://github.com/wighawag/loot-for-everyone"
-          label="Check it out on github!"
-        >
-          Github
-        </NavButton>
-      </div>
-    </div>
-
-    <div class="pt-3 pb-4 dark:bg-black bg-white">
-      <h1 class="dark:text-gray-500 text-gray-500 m-4 font-semibold">Use it:</h1>
-      <code id="loot-for-everyone-command" on:click={select} class="mb-5 text-pink-600 font-black"
-        >npx degit wighawag/loot-for-everyone your-app-folder</code
-      >
-      <p class="mt-6">
-        Find out more on
-        <a class="underline" href="https://github.com/wighawag/loot-for-everyone#readme" target="_blank" rel="noopener"
-          >github</a
-        >
-      </p>
-    </div>
+    <p class="px-4 pb-1">
+      Use Synthetic Loot Data but are token. Everyone has one but you can pick anyone too!
+    </p>
   </div>
+  <div
+    class="w-full h-full mx-auto flex items-center justify-center text-black dark:text-white " />
 
-  <div class="pt-8 pb-4 dark:bg-black bg-white">
-    <h2 class="text-3xl underline mb-4 text-gray-600 dark:text-gray-400">Features</h2>
-    <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-screen-xl lg:px-8">
-      <div class="lg:grid lg:grid-cols-3 lg:gap-8">
-        <Feature title="All Included">
-          This template include setup for smart contracts and frontend. All is
-          setup as a monorepo with a shared common library.
-        </Feature>
-        <Feature title="PWA ready: 100% Lighthouse score">
-          The web app is fully PWA compliant, with offline caching, etc... The javascript code necessary to launch the
-          app is less than 50kB (15kB compressed), including the home page content. The rest is loaded on demand.
-        </Feature>
-        <Feature title="Great Dev experience">
-          <a class="text-blue-600" href="https://hardhat.org" target="_blank" rel="noopener">Hardhat</a>
-          for contracts,
-          <a class="text-blue-600" href="https://github.com/wighawag/hardhat-deploy" target="_blank" rel="noopener"
-            >hardhat-deploy</a
-          >
-          for contract deployment,
-          <a class="text-blue-600" href="https://thegraph.com" target="_blank" rel="noopener">The Graph</a>
-          for contract api,
-          <a class="text-blue-600" href="https://svelte.dev" target="_blank" rel="noopener">svelte + Svelte Kit</a>
-          for frontend with HMR (Hot Module Replacement) and production build.
-        </Feature>
-        <Feature title="Everything Hot Reload">
-          On contract changes, contract get to keep their address and code get updated automatically. On frontend
-          changes, module get replaced using blazing fast
-          <a class="text-blue-600" href="https://vite.dev" target="_blank" rel="noopener">Vite</a>
-          es module hot reload. On subgraph changes, the graph get updated and reexecuted.
-        </Feature>
-        <Feature title="Fully IPFS Ready">
-          Fully IPFS ready with proper url routing. The web app works on both IPFS urls and ENS/DNS urls. PWA works on
-          IPFS too with scoped service workers.
-        </Feature>
-        <Feature title="All in Typescript">The whole app including contracts tests, is written in typescript.</Feature>
-        <Feature title="Code Splitting and Tree Shaking">
-          By using Svelte Kit (and so Vite) and ES modules, the frontend benefit from code splitting an dynamic imports
-          as well as tree shaking.
-        </Feature>
-        <Feature title="VSCode Setup">
-          The repo is setup as a vscode workspace with recommended plugins. Execute tests from the editor. Auto format,
-          etc...
-        </Feature>
-        <Feature title="One command deploy">
-          Everything is setup, except for the private ENV variable to deploy the contracts, the subgraph and the web
-          app, all at once. It also include
-          <a class="text-blue-600" href="https://fleek.co" target="_blank" rel="noopener">fleek</a>
-          config for automatic web deployment on ipfs.
-        </Feature>
-      </div>
-    </div>
-  </div>
-</section>
+  <section
+    class="py-8 px-4 w-full h-full mx-auto flex items-center justify-center text-black dark:text-white ">
+    {#if !$nfts}
+      <div>Generating Loot...</div>
+    {:else if $nfts.state === 'Idle'}
+      <div>Loot not loaded</div>
+    {:else if $nfts.error}
+      <div>Error: {$nfts.error}</div>
+    {:else if $nfts.tokens.length === 0 && $nfts.state === 'Loading'}
+      <div>Loading Loot...</div>
+    {:else}
+      <ul
+        class="grid-cols-2 grid sm:grid-cols-4 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-6 lg:gap-x-8">
+        {#each $nfts.tokens as nft, index}
+          <li>
+            <div id={nft.id} class="p-8">
+              <div class="aspect-w-3 aspect-h-2">
+                {#if nft.error}
+                  Error:
+                  {nft.error}
+                {:else if nft.image}
+                  <img
+                    on:click={() => mint(nft)}
+                    style={`image-rendering: pixelated; ${nft.minted ? 'filter: grayscale(100%);' : ''}`}
+                    class={`object-contain h-full w-full ${nft.minted ? '' : 'cursor-pointer'}`}
+                    alt={nft.name}
+                    src={nft.image} />
+                {:else}
+                  <p class="">{nft.name}</p>
+                {/if}
+              </div>
+              <!-- {#if nft.image} -->
+                <div class={nft.minted ? 'hidden' : ''}>
+                  <div class="mt-2 flex">
+                    <div class="w-0 flex-1 flex">
+                      <button
+                        on:click={() => mint(nft)}
+                        class="relative w-0 flex-1 inline-flex items-center
+                        justify-center pb-4 text-sm text-gray-700 dark:text-gray-300 font-medium
+                        border border-transparent rounded-br-lg
+                        hover:text-gray-500">
+                        <svg
+                          class="w-6 h-6"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor">
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
+                        </svg>
+                        <span class="text-xs md:text-base ml-3">Mint It</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              <!-- {/if} -->
+            </div>
+          </li>
+        {:else}Error: No Mandala could be generated{/each}
+      </ul>
+    {/if}
+  </section>
+</WalletAccess>
+
+{#if $pickLootFlow.step !== 'IDLE' && $pickLootFlow.step !== 'SUCCESS'}
+  {#if $pickLootFlow.step !== 'CONFIRM'}
+    <!-- Taken care by WalletAccess -->
+  {:else}
+    <Modal on:close={() => pickLootFlow.cancel()}>
+      {#if !$pickLootFlow.data}
+        Error
+      {:else}
+        <div class="text-center">
+          <h2>Pick Loot</h2>
+          <button
+            class="mt-5 p-1 border border-yellow-500"
+            label="Mint"
+            on:click={() => pickLootFlow.confirm()}>
+            Confirm
+          </button>
+        </div>
+      {/if}
+    </Modal>
+  {/if}
+{/if}

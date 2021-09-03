@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Unlicense
+// SPDX-License-Identifier: AGPL-1.0
 pragma solidity 0.7.6;
 pragma experimental ABIEncoderV2;
 
@@ -41,6 +41,7 @@ contract LootForEveryone is ERC721Base {
         return _tokenURI(id);
     }
 
+    ///@notice get all info in the minimum way
     function getTokenDataOfOwner(
         address owner,
         uint256 start,
@@ -80,7 +81,8 @@ contract LootForEveryone is ERC721Base {
         }
     }
 
-    function claim(address to, bytes memory signature) external {
+    /// @notice utility function to claim a token when you know the private key of an address, go hunt for your loot!
+    function pickLoot(address to, bytes memory signature) external {
         require(to != address(0), "NOT_TO_ZEROADDRESS");
         bytes32 hashedData = keccak256(abi.encodePacked("LootForEveryone", to));
         address signer = hashedData.toEthSignedMessageHash().recover(signature);
@@ -89,13 +91,78 @@ contract LootForEveryone is ERC721Base {
         _transferFrom(signer, to, uint256(signer), false);
     }
 
+    function weaponComponents(uint256 id) external  view returns (uint256[5] memory) {
+        require(uint256(address(id)) == id, "NONEXISTENT_TOKEN");
+        return _syntheticLoot.weaponComponents(address(id));
+    }
+
+    function chestComponents(uint256 id) external view returns (uint256[5] memory) {
+        return _syntheticLoot.chestComponents(address(id));
+    }
+
+    function headComponents(uint256 id) external view returns (uint256[5] memory) {
+        return _syntheticLoot.headComponents(address(id));
+    }
+
+    function waistComponents(uint256 id) external view returns (uint256[5] memory) {
+        return _syntheticLoot.waistComponents(address(id));
+    }
+
+    function footComponents(uint256 id) external view returns (uint256[5] memory) {
+        return _syntheticLoot.footComponents(address(id));
+    }
+
+    function handComponents(uint256 id) external view returns (uint256[5] memory) {
+        return _syntheticLoot.handComponents(address(id));
+    }
+
+    function neckComponents(uint256 id) external view returns (uint256[5] memory) {
+        return _syntheticLoot.neckComponents(address(id));
+    }
+
+    function ringComponents(uint256 id) external view returns (uint256[5] memory) {
+        return _syntheticLoot.ringComponents(address(id));
+    }
+
+    function getWeapon(uint256 id) external view returns (string memory) {
+        return _syntheticLoot.getWeapon(address(id));
+    }
+
+    function getChest(uint256 id) external view returns (string memory) {
+        return _syntheticLoot.getChest(address(id));
+    }
+
+    function getHead(uint256 id) external view returns (string memory) {
+        return _syntheticLoot.getHead(address(id));
+    }
+
+    function getWaist(uint256 id) external view returns (string memory) {
+        return _syntheticLoot.getWaist(address(id));
+    }
+
+    function getFoot(uint256 id) external view returns (string memory) {
+        return _syntheticLoot.getFoot(address(id));
+    }
+
+    function getHand(uint256 id) external view returns (string memory) {
+        return _syntheticLoot.getHand(address(id));
+    }
+
+    function getNeck(uint256 id) external view returns (string memory) {
+        return _syntheticLoot.getNeck(address(id));
+    }
+
+    function getRing(uint256 id) external view returns (string memory) {
+        return _syntheticLoot.getRing(address(id));
+    }
+
+
     // -------------------------------------------------------------------------------------------------
     // INTERNAL
     // -------------------------------------------------------------------------------------------------
 
-
     function _tokenURI(uint256 id) internal view returns (string memory) {
-        require(uint256(address(id)) == id, "TOKEN_NOT_EXISTS");
+        require(uint256(address(id)) == id, "NONEXISTENT_TOKEN");
         return _syntheticLoot.tokenURI(address(id));
     }
 }
