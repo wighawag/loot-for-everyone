@@ -1,0 +1,22 @@
+{
+  "appName": "Loot For Everyone",
+  "appShortName": "Loot For Everyone",
+  "appDescription": "A Production Ready Template for Decentralised Applications.",
+  "appShortDescription": "Template for Decentralised Applications.",
+  "developerName": "You",
+  "developerURL": "",
+  "url": "https://loot-for-everyone.eth.link",
+  "ensName": "loot-for-everyone.eth",
+  "background": "#000000",
+  "theme_color": "#000000",
+  "appleStatusBarStyle": "black-translucent",
+  "display": "fullscreen",
+  "icon": "icon.svg",
+  "maskable_icons": [
+    {
+      "src": "maskable_icon_512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
