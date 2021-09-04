@@ -72,7 +72,7 @@ importers:
       ethers: ^5.4.6
       fs-extra: ^10.0.0
       hardhat: ^2.6.2
-      hardhat-deploy: ^0.9.0
+      hardhat-deploy: ^0.9.1
       hardhat-gas-reporter: ^1.0.4
       loot-for-everyone-common: workspace:*
       mocha: ^9.1.1
@@ -108,7 +108,7 @@ importers:
       ethers: 5.4.6
       fs-extra: 10.0.0
       hardhat: 2.6.2
-      hardhat-deploy: 0.9.0_hardhat@2.6.2
+      hardhat-deploy: 0.9.1_hardhat@2.6.2
       hardhat-gas-reporter: 1.0.4_hardhat@2.6.2
       loot-for-everyone-common: link:../common-lib
       mocha: 9.1.1
@@ -2468,8 +2468,8 @@ packages:
       - debug
     dev: true
 
-  /axios/0.21.1_debug@4.3.2:
-    resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
+  /axios/0.21.2_debug@4.3.2:
+    resolution: {integrity: sha512-87otirqUw3e8CzHTMO+/9kh/FSgXt/eVDvipijwDtEuwbkySWZ9SBm6VEubmJ/kLKEoLQV/POhxXFb66bfekfg==}
     dependencies:
       follow-redirects: 1.14.3_debug@4.3.2
     transitivePeerDependencies:
@@ -5709,8 +5709,8 @@ packages:
       hardhat: 2.6.2
     dev: true
 
-  /hardhat-deploy/0.9.0_hardhat@2.6.2:
-    resolution: {integrity: sha512-opAolAR0WiUkMfZU0RljqwxXyrNjefx4eHn+sARXLPUfaUJWx/kjaaUUWw9Vz6Qlvi1pQfENDfYwGaWjnDJImw==}
+  /hardhat-deploy/0.9.1_hardhat@2.6.2:
+    resolution: {integrity: sha512-GUrLlsBKZqWJ2isFDnpnlnyLuIDqES7mEFGm4P7GutG2jeBebvTg2wCNh3RTW/rpHUtU66yCZXfy+LeD0QXFbg==}
     peerDependencies:
       '@ethersproject/hardware-wallets': ^5.0.14
       hardhat: ^2.0.0
@@ -5726,7 +5726,7 @@ packages:
       '@ethersproject/transactions': 5.4.0
       '@ethersproject/wallet': 5.4.0
       '@types/qs': 6.9.7
-      axios: 0.21.1_debug@4.3.2
+      axios: 0.21.2_debug@4.3.2
       chalk: 4.1.2
       chokidar: 3.5.2
       debug: 4.3.2
