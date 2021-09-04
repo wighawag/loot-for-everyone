@@ -9,7 +9,7 @@
 
   <h1 class="text-2xl m-8">Loot For Everyone</h1>
   <p class="mx-8 pt-3">
-    Loot For Everyone is <a class="underline" href="https://lootproject.com" target="_blank" rel="noreferer">Loot</a> but for everyone. Check your <a class="border-white border-2" href={url('wallet/')}>wallet</a> here and you'll see you already got some loot token!
+    "Loot For Everyone" is <a class="underline" href="https://lootproject.com" target="_blank" rel="noreferer">Loot</a> but for everyone. Check your <a class="border-white border-2" href={url('wallet/')}>wallet</a> here and you'll see you already got some loot token!
     Every ethereum address has now some Loot!
   </p>
 
