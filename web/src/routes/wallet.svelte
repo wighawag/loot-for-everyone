@@ -7,9 +7,9 @@
   import {page} from '$app/stores';
   import {goto} from '$app/navigation';
   import { url } from '$lib/utils/url';
-import { BigNumber } from '@ethersproject/bignumber';
-import pickOwnLootFlow from '$lib/stores/pickOwnLootFlow';
-import transmuteFlow from '$lib/stores/transmuteFlow';
+  import { BigNumber } from '@ethersproject/bignumber';
+  import pickOwnLootFlow from '$lib/stores/pickOwnLootFlow';
+  import transmuteFlow from '$lib/stores/transmuteFlow';
 
   let walletAddress: string = undefined;
   //TODO
@@ -20,7 +20,7 @@ import transmuteFlow from '$lib/stores/transmuteFlow';
   }
 
   $: {
-    if ($wallet.address && !walletAddress) {
+    if ($wallet && $wallet.address && !walletAddress) {
       console.log('redirect');
       goto(url(`wallet/#${$wallet.address}`), {replaceState: true}).then(() => {
         walletAddress = ($page.path && typeof location !== "undefined") ? location.hash.substr(1): undefined
@@ -29,7 +29,7 @@ import transmuteFlow from '$lib/stores/transmuteFlow';
   }
 
   $: isWalletOwner =
-    $wallet.address &&
+  $wallet && $wallet.address &&
     walletAddress &&
     $wallet.address.toLowerCase() === walletAddress.toLowerCase();
 
@@ -39,7 +39,7 @@ import transmuteFlow from '$lib/stores/transmuteFlow';
   function transmuteBack(nft: NFT) {
     let tokenID = nft.id;
     flow.execute(async (contracts) => {
-      if ($wallet.address) {
+      if ($wallet && $wallet.address) {
         await contracts.LootForEveryone.transmuteBack(tokenID, $wallet.address);
       }
     });
@@ -55,7 +55,7 @@ import transmuteFlow from '$lib/stores/transmuteFlow';
   }
 
   function actOn(nft: NFT) {
-    if (!nft.claimed && BigNumber.from(nft.id).eq(BigNumber.from($wallet.address))) {
+    if (isWalletOwner && !nft.claimed && BigNumber.from(nft.id).eq(BigNumber.from($wallet.address))) {
       pickUp(nft);
     } else if (BigNumber.from(nft.id).lt(8001)) {
       // transmuteBack(nft);
@@ -150,7 +150,7 @@ import transmuteFlow from '$lib/stores/transmuteFlow';
     {:else if $nfts.error}
       <div>Error: {$nfts.error}</div>
     {:else if $nfts.tokens.length === 0 && $nfts.state === 'Loading'}
-      <div>Loading Your Tokens...</div>
+      <div>Loading Tokens...</div>
     {:else}
       <ul
         class="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-12 sm:gap-y-20 sm:space-y-0 lg:grid-cols-3 lg:gap-x-16">
@@ -177,7 +177,7 @@ import transmuteFlow from '$lib/stores/transmuteFlow';
                   <p class="">{nft.name}</p>
                 {/if}
               </div>
-              <div class={nft.claimed ? 'hidden' : ''}>
+              <div class={nft.claimed || !isWalletOwner ? 'hidden' : ''}>
                 <div class="mt-2 flex">
                   <div class="w-0 flex-1 flex">
                     <button

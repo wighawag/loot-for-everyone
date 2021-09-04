@@ -25,7 +25,7 @@
     Some of you might wonder, what about the original Loot owner ?
   </p>
 
-  <p class="mx-8 pt-3">Fear not, they are not forgotten and they can always transmute their original Loot into "Loot For Everyone" to get an equivalent token (same tokenId, same items, same tokenURI)</p>
+  <p class="mx-8 pt-3">Fear not, nobody is forgotten and original Loot owners can always transmute their original Loot into "Loot For Everyone" to get an equivalent token (same tokenId, same items, same tokenURI)</p>
 </div>
 
 
