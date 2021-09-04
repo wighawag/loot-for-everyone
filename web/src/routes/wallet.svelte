@@ -8,6 +8,8 @@
   import {goto} from '$app/navigation';
   import { url } from '$lib/utils/url';
 import { BigNumber } from '@ethersproject/bignumber';
+import pickOwnLootFlow from '$lib/stores/pickOwnLootFlow';
+import transmuteFlow from '$lib/stores/transmuteFlow';
 
   let walletAddress: string = undefined;
   //TODO
@@ -44,18 +46,19 @@ import { BigNumber } from '@ethersproject/bignumber';
   }
 
   function pickUp(nft: NFT) {
-    flow.execute(async (contracts) => {
-      if ($wallet.address) {
-        await contracts.LootForEveryone.transferFrom($wallet.address, $wallet.address, nft.id);
-      }
-    });
+    pickOwnLootFlow.pickup(nft);
+    // flow.execute(async (contracts) => {
+    //   if ($wallet.address) {
+    //     await contracts.LootForEveryone.transferFrom($wallet.address, $wallet.address, nft.id);
+    //   }
+    // });
   }
 
   function actOn(nft: NFT) {
     if (!nft.claimed && BigNumber.from(nft.id).eq(BigNumber.from($wallet.address))) {
       pickUp(nft);
     } else if (BigNumber.from(nft.id).lt(8001)) {
-      transmuteBack(nft);
+      // transmuteBack(nft);
     }
   }
 
@@ -174,7 +177,7 @@ import { BigNumber } from '@ethersproject/bignumber';
                   <p class="">{nft.name}</p>
                 {/if}
               </div>
-              <!-- <div class={!nft.claimed ? 'hidden' : ''}>
+              <div class={!nft.claimed ? 'hidden' : ''}>
                 <div class="mt-2 flex">
                   <div class="w-0 flex-1 flex">
                     <button
@@ -195,11 +198,11 @@ import { BigNumber } from '@ethersproject/bignumber';
                           stroke-width="2"
                           d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
                       </svg>
-                      <span class="text-xs md:text-base ml-3">Trigger Transfer</span>
+                      <span class="text-xs md:text-base ml-3">Index It</span>
                     </button>
                   </div>
                 </div>
-              </div> -->
+              </div>
             </div>
           </li>
         {/each}

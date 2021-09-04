@@ -3,20 +3,22 @@
   import NavButton from '$lib/components/navigation/NavButton.svelte';
   import {nftsof} from '$lib/stores/originalloot';
   import {wallet, flow, chain} from '$lib/stores/wallet';
+import transmuteFlow from '$lib/stores/transmuteFlow';
 
   $: nfts = nftsof($wallet.address);
 
   function transmute(nft: {id: number}) {
-    let tokenID = nft.id;
-    flow.execute(async (contracts) => {
-      if ($wallet.address) {
-        const isApproved = await contracts.Loot.isApprovedForAll($wallet.address, contracts.LootForEveryone.address);
-        if (!isApproved) {
-          await contracts.Loot.setApprovalForAll(contracts.LootForEveryone.address, true);
-        }
-        await contracts.LootForEveryone.transmute(tokenID, $wallet.address);
-      }
-    });
+    transmuteFlow.transmute(nft);
+    // let tokenID = nft.id;
+    // flow.execute(async (contracts) => {
+    //   if ($wallet.address) {
+    //     const isApproved = await contracts.Loot.isApprovedForAll($wallet.address, contracts.LootForEveryone.address);
+    //     if (!isApproved) {
+    //       await contracts.Loot.setApprovalForAll(contracts.LootForEveryone.address, true);
+    //     }
+    //     await contracts.LootForEveryone.transmute(tokenID, $wallet.address);
+    //   }
+    // });
   }
 </script>
 
