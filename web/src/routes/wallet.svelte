@@ -6,6 +6,7 @@
   import {page} from '$app/stores';
   import {goto} from '$app/navigation';
   import { url } from '$lib/utils/url';
+import { base } from '$app/paths';
 
   let walletAddress: string = undefined;
   //TODO
@@ -92,7 +93,7 @@
         class="w-full h-full mx-auto flex flex-col items-center justify-center text-black dark:text-white ">
         {#if isWalletOwner}
           <p class="p-4">You do not have any Loot</p>
-          <p>find one <a href="" class="underline">here</a></p>
+          <p>find one <a href={`${base}`} class="underline">here</a></p>
         {:else}
           <p class="p-4">No Loot for {walletAddress}</p>
         {/if}

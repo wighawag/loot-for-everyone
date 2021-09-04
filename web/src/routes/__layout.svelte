@@ -9,6 +9,7 @@
   // import Install from './components/Install.svelte';
 
   import {appDescription, url as appUrl} from '../../application.json';
+  import { base } from '$app/paths';
 
   const title = 'Loot For Everyone, Template for Decentralised Applications.';
   const description = appDescription;
@@ -36,6 +37,6 @@
 <NewVersionNotification />
 <Notifications />
 <NavBar
-  links={[{href: '', title: 'Search For Loot'}, {href: 'wallet', title: 'Wallet'}, {href: 'transmute', title: 'Transmute'}, {href: 'about', title: 'About'}]} />
+  links={[{href: `${base}`, title: 'Search For Loot'}, {href: `${base}/wallet`, title: 'Wallet'}, {href: `${base}/transmute`, title: 'Transmute'}, {href: `${base}/about`, title: 'About'}]} />
 <slot />
 
