@@ -4,6 +4,8 @@
 
 <div
   class="w-full h-full mx-auto flex text-center flex-col items-center justify-center text-black dark:text-white ">
+
+  <h1 class="text-2xl m-8">Loot For Everyone</h1>
   <p class="mx-8 pt-3">
     Loot For Everyone is <a class="underline" href="https://lootproject.com">Loot</a> but for everyone. Check your <a class="border-white border-2" href="wallet">wallet</a> here and you'll see you already got some loot token!
   </p>
