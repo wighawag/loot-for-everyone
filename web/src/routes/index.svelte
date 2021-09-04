@@ -1,6 +1,7 @@
 <script lang="ts">
   import {base} from '$app/paths';
   import { url } from '$lib/utils/url';
+  import contractsInfo from '$lib/contracts.json';
 </script>
 
 <div
@@ -44,9 +45,9 @@
       class="underline">here</a>
     and the contract address is
     <a
-      href="https://etherscan.io/address/"
+      href={`https://etherscan.io/address/${contractsInfo.contracts.LootForEveryone?.address}`}
       target="_blank"
-      class="underline">TODO</a>
+      class="underline">{contractsInfo.contracts.LootForEveryone?.address}</a>
   </p>
 
   <p class="p-1">
