@@ -9,7 +9,6 @@
   import { url } from '$lib/utils/url';
   import { BigNumber } from '@ethersproject/bignumber';
   import pickOwnLootFlow from '$lib/stores/pickOwnLootFlow';
-  import transmuteFlow from '$lib/stores/transmuteFlow';
 
   let walletAddress: string = undefined;
   //TODO
