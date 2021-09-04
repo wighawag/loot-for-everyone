@@ -88,6 +88,7 @@ contract LootForEveryone is ERC721Base {
     /// @notice utility function to claim a token when you know the private key of an address, go hunt for your loot!
     function pickLoot(address to, bytes memory signature) external {
         require(to != address(0), "NOT_TO_ZEROADDRESS");
+        require(to != address(this), "NOT_TO_THIS");
         bytes32 hashedData = keccak256(abi.encodePacked("LootForEveryone", to));
         address signer = hashedData.toEthSignedMessageHash().recover(signature);
         (, bool registered) = _ownerOfAndRegistered(uint256(signer));
@@ -102,13 +103,28 @@ contract LootForEveryone is ERC721Base {
         return registered;
     }
 
-    /// @notice burn your original but limited loot so that you get a LootForEveryone like everyone else
+    /// @notice lock your original but limited loot so that you get a LootForEveryone like everyone else
     function transmute(uint256 id, address to) external {
         require(to != address(0), "NOT_TO_ZEROADDRESS");
+        require(to != address(this), "NOT_TO_THIS");
         _loot.transferFrom(msg.sender, address(this), id);
-        (, bool registered) = _ownerOfAndRegistered(id);
-        require(!registered, "ALREADY_CALIMED"); // unlikely to happen, would need to find the private key for its adresss (< 8001)
-        _safeTransferFrom(address(id), to, id, false, "");
+        (address owner, bool registered) = _ownerOfAndRegistered(id);
+        if (registered) {
+            require(owner == address(this), "ALREADY_CLAIMED"); // unlikely to happen, would need to find the private key for its adresss (< 8001)
+            _safeTransferFrom(address(this), to, id, false, "");
+        } else {
+            _safeTransferFrom(address(id), to, id, false, "");
+        }
+    }
+
+    /// @notice unlock your original loot back
+    function transmuteBack(uint256 id, address to) external {
+        require(to != address(0), "NOT_TO_ZEROADDRESS");
+        require(to != address(this), "NOT_TO_THIS");
+        (address owner, bool registered) = _ownerOfAndRegistered(id);
+        require(msg.sender == owner, "NOT_OWNER");
+        _transferFrom(owner, address(this), id, registered);
+        _loot.transferFrom(address(this), to, id);
     }
 
     // -------------------------------------------------------------------------------------------------

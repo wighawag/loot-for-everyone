@@ -80,6 +80,7 @@ abstract contract ERC721Base is IERC165, IERC721 {
         require(owner != address(0), "NONEXISTENT_TOKEN");
         require(owner == from, "NOT_OWNER");
         require(to != address(0), "NOT_TO_ZEROADDRESS");
+        require(to != address(this), "NOT_TO_THIS");
         if (msg.sender != from) {
             require(
                 _operatorsForAll[from][msg.sender] || (operatorEnabled && _operators[id] == msg.sender),
@@ -165,6 +166,7 @@ abstract contract ERC721Base is IERC165, IERC721 {
         require(owner != address(0), "NONEXISTENT_TOKEN");
         require(owner == from, "NOT_OWNER");
         require(to != address(0), "NOT_TO_ZEROADDRESS");
+        require(to != address(this), "NOT_TO_THIS");
         if (msg.sender != from) {
             require(
                 _operatorsForAll[from][msg.sender] || (operatorEnabled && _operators[id] == msg.sender),

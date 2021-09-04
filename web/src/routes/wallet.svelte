@@ -31,6 +31,16 @@
 
   $: nfts = nftsof(walletAddress);
 
+
+  function transmuteBack(nft: {id: number}) {
+    let tokenID = nft.id;
+    flow.execute(async (contracts) => {
+      if ($wallet.address) {
+        await contracts.LootForEveryone.transmuteBack(tokenID, $wallet.address);
+      }
+    });
+  }
+
 </script>
 
 <WalletAccess>
@@ -128,6 +138,7 @@
             <div
               id={nft.id}
               class="space-y-4 py-8 cursor-pointer"
+              on:click={transmuteBack(nft)}
               >
               <div class="aspect-w-3 aspect-h-2">
                 {#if nft.error}

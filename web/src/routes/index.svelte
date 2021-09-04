@@ -1,154 +1,25 @@
 <script lang="ts">
-  import WalletAccess from '$lib/WalletAccess.svelte';
-  import {randomTokens} from '$lib/stores/randomTokens';
-  import pickLootFlow from '$lib/stores/pickLootFlow';
-  import {wallet, flow, chain} from '$lib/stores/wallet';
-  import {BigNumber} from '@ethersproject/bignumber';
-  import Modal from '$lib/components/Modal.svelte';
-  import { onMount } from 'svelte';
-
-  function format(bn: BigNumber, numDecimals: number): number {
-    const precision = Math.pow(10, numDecimals);
-    const base = BigNumber.from('1000000000000000000').div(precision);
-    return bn.div(base).toNumber() / precision;
-  }
-
-  let nfts = randomTokens;
-  nfts.generate(32);
-
-  function mint(nft: {id: string; privateKey: string}) {
-    pickLootFlow.mint(nft);
-  }
-
-  onMount(() => {
-    window.onscroll = function () {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - window.innerHeight / 3
-      ) {
-        nfts.loadMore(32);
-      }
-    };
-  });
+  import {base} from '$app/paths';
 </script>
 
-<WalletAccess>
+<div
+  class="w-full h-full mx-auto flex text-center flex-col items-center justify-center text-black dark:text-white ">
+  <p class="mx-8 pt-3">
+    Loot For Everyone is <a class="underline" href="https://lootproject.com">Loot</a> but for everyone. Check your <a class="border-white border-2" href="wallet">wallet</a> here and you'll see you already got some loot token!
+  </p>
 
-  <div
-    class="w-full h-full mx-auto flex justify-between text-black dark:text-white ">
-    <!-- <p class="m-2 text-xs md:text-base font-black text-yellow-400">+ Refunded Buffer: {($curve.supply && $curve.currentPrice) ? format(computeBuffer($curve.supply, $curve.currentPrice),4) + ' ETH' : 'loading'}</p> -->
-    <button
-      class="m-2 text-xs md:text-base font-black text-yellow-400 border border-yellow-500 p-1"
-      on:click={() => nfts.reset()}>reset batch</button>
-  </div>
+  <p class="mx-8 pt-3">Note that this uses the exact same attributes as the original Loot via <a class="underline" href="">Synthetic Loot</a></p>
 
-  <div
-    class="w-full h-full text-xs text-center md:text-base mx-auto flex flex-col items-center justify-center text-black dark:text-white ">
-    <p class="px-4 pt-4">
-      Loot For Everyone
-    </p>
-    <p class="px-4 pb-1">
-      Use Synthetic Loot Data but are token. Everyone has one but you can pick anyone too!
-    </p>
-  </div>
-  <div
-    class="w-full h-full mx-auto flex items-center justify-center text-black dark:text-white " />
+  <p class="mx-8 pt-3">Since every ethereum wallet have some loot you can also pick up Loot by searching for it. Have a look <a class="border-white border-2" href="search">here</a></p>
 
-  <section
-    class="py-8 px-4 w-full h-full mx-auto flex items-center justify-center text-black dark:text-white ">
-    {#if $chain.state !== 'Connected' && $chain.state !== 'Ready'}
-      <p>
-        Please connect your wallet to search for loots.
-      </p>
 
-      <button
-          class="text-center m-2 text-xs md:text-base font-black text-yellow-400 border border-yellow-500 p-1"
-          on:click={() => flow.connect()}>Connect</button>
-    {:else if !$nfts}
-      <div>Generating Loot...</div>
-    {:else if $nfts.state === 'Idle'}
-      <div>Loot not loaded</div>
-    {:else if $nfts.error}
-      <div>Error: {$nfts.error}</div>
-    {:else if $nfts.tokens.length === 0 && $nfts.state === 'Loading'}
-      <div>Loading Loot...</div>
-    {:else}
-      <ul
-        class="grid-cols-1 grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8">
-        {#each $nfts.tokens as nft, index}
-          <li>
-            <div id={nft.id} class="p-8">
-              <div class="aspect-w-30 aspect-h-20">
-                {#if nft.error}
-                  Error:
-                  {nft.error}
-                {:else if nft.image}
-                  <img
-                    on:click={() => mint(nft)}
-                    style={`image-rendering: pixelated; ${nft.minted ? 'filter: grayscale(100%); opacity: 50%' : ''}`}
-                    class={`border-2  ${nft.minted ? 'border-red-700' : 'cursor-pointer border-white'}`}
-                    alt={nft.name}
-                    src={nft.image}
-                    width="400px"
-                    height="400px" />
-                {:else}
-                  <p class="">{nft.name}</p>
-                {/if}
-              </div>
-              <!-- {#if nft.image} -->
-                <div class={nft.minted ? 'hidden' : ''}>
-                  <div class="mt-2 flex">
-                    <div class="w-0 flex-1 flex">
-                      <button
-                        on:click={() => mint(nft)}
-                        class="relative w-0 flex-1 inline-flex items-center
-                        justify-center pb-4 text-sm text-gray-700 dark:text-gray-300 font-medium
-                        border border-transparent rounded-br-lg
-                        hover:text-gray-500">
-                        <svg
-                          class="w-6 h-6"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
-                        </svg>
-                        <span class="text-xs md:text-base ml-3">Pick It Up</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              <!-- {/if} -->
-            </div>
-          </li>
-        {:else}Error: No Loot could be generated{/each}
-      </ul>
-    {/if}
-  </section>
-</WalletAccess>
+  <p class="mx-8 pt-3">
+    This also means that everybody on earth have now some loot and projects planning to integrate with loot can now reach everyone.
+  </p>
 
-{#if $pickLootFlow.step !== 'IDLE' && $pickLootFlow.step !== 'SUCCESS'}
-  {#if $pickLootFlow.step !== 'CONFIRM'}
-    <!-- Taken care by WalletAccess -->
-  {:else}
-    <Modal on:close={() => pickLootFlow.cancel()}>
-      {#if !$pickLootFlow.data}
-        Error
-      {:else}
-        <div class="text-center">
-          <h2>Pick Loot</h2>
-          <button
-            class="mt-5 p-1 border border-yellow-500"
-            label="Pick The Loot"
-            on:click={() => pickLootFlow.confirm()}>
-            Confirm
-          </button>
-        </div>
-      {/if}
-    </Modal>
-  {/if}
-{/if}
+  <p class="mx-8 pt-3">
+    Some of you might wonder, what about the original Loot owner ?
+  </p>
+
+  <p class="mx-8 pt-3">Fear not, they are not forgotten and they can always transmute their original Loot into "Loot For Everyone" to get an equivalent token (Same tokenId, same attributes)</p>
+</div>
