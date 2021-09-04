@@ -8,9 +8,10 @@
   <h1 class="text-2xl m-8">Loot For Everyone</h1>
   <p class="mx-8 pt-3">
     Loot For Everyone is <a class="underline" href="https://lootproject.com">Loot</a> but for everyone. Check your <a class="border-white border-2" href="wallet">wallet</a> here and you'll see you already got some loot token!
+    Every ethereum address has now some Loot!
   </p>
 
-  <p class="mx-8 pt-3">Note that this uses the exact same attributes as the original Loot via <a class="underline" href="">Synthetic Loot</a></p>
+  <p class="mx-8 pt-3">Note that this uses the exact same attributes as the original Loot via <a class="underline" href="https://www.lootproject.com/synthloot">Synthetic Loot</a></p>
 
   <p class="mx-8 pt-3">Since every ethereum wallet have some loot you can also pick up Loot by searching for it. Have a look <a class="border-white border-2" href="search">here</a></p>
 

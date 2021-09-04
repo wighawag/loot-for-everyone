@@ -10,7 +10,7 @@
 
   import {appDescription, url as appUrl} from '../../application.json';
 
-  const title = 'Loot For Everyone, Template for Decentralised Applications.';
+  const title = 'Loot For Everyone';
   const description = appDescription;
   const host = appUrl.endsWith('/') ? appUrl : appUrl + '/';
   const previewImage = host + 'preview.png';
