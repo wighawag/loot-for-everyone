@@ -177,7 +177,7 @@ import transmuteFlow from '$lib/stores/transmuteFlow';
                   <p class="">{nft.name}</p>
                 {/if}
               </div>
-              <div class={!nft.claimed ? 'hidden' : ''}>
+              <div class={nft.claimed ? 'hidden' : ''}>
                 <div class="mt-2 flex">
                   <div class="w-0 flex-1 flex">
                     <button
