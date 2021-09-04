@@ -34,7 +34,7 @@
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:snap-global="false"
+     inkscape:snap-global="true"
      inkscape:window-width="1910"
      inkscape:window-height="1070"
      inkscape:window-x="0"
@@ -44,7 +44,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:document-rotation="0" />
+     inkscape:document-rotation="0"
+     inkscape:snap-bbox="true"
+     inkscape:snap-page="true" />
   <metadata
      id="metadata5506">
     <rdf:RDF>
@@ -73,6 +75,13 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(70.631574,-94.742486)">
+    <rect
+       style="fill:#000000;stroke-width:0.262399"
+       id="rect20"
+       width="45.465824"
+       height="45.465816"
+       x="-70.631577"
+       y="94.742485" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:8.85571px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.221393"
