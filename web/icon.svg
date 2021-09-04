@@ -23,7 +23,7 @@
      id="defs5503" />
   <sodipodi:namedview
      id="base"
-     pagecolor="#ffffff"
+     pagecolor="#000000"
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageopacity="1"
@@ -83,16 +83,16 @@
          id="tspan97"
          x="-69.739853"
          y="108.10463"
-         style="stroke-width:0.221393">Loot</tspan><tspan
+         style="fill:#ffffff;stroke-width:0.221393">Loot</tspan><tspan
          sodipodi:role="line"
          x="-69.739853"
          y="119.17427"
-         style="stroke-width:0.221393"
+         style="fill:#ffffff;stroke-width:0.221393"
          id="tspan101">For</tspan><tspan
          sodipodi:role="line"
          x="-69.739853"
-         y="130.2439"
-         style="stroke-width:0.221393"
+         y="130.24391"
+         style="fill:#ffffff;stroke-width:0.221393"
          id="tspan103">Everyone</tspan></text>
   </g>
 </svg>
