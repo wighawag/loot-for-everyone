@@ -1,10 +1,15 @@
 import {expect} from './chai-setup';
-import {ethers, deployments, getUnnamedAccounts} from 'hardhat';
+import {
+  ethers,
+  deployments,
+  getUnnamedAccounts,
+  getNamedAccounts,
+} from 'hardhat';
 import {Loot, LootForEveryone, SyntheticLoot} from '../typechain';
-import {setupUsers, waitFor} from './utils';
+import {setupUser, setupUsers, waitFor} from './utils';
 import {Wallet} from '@ethersproject/wallet';
 import {keccak256} from '@ethersproject/solidity';
-import {arrayify} from '@ethersproject/bytes';
+import {arrayify, hexZeroPad} from '@ethersproject/bytes';
 import {BigNumber} from 'ethers';
 // import {BigNumber} from '@ethersproject/bignumber';
 
@@ -17,10 +22,13 @@ const setup = deployments.createFixture(async () => {
     Loot: <Loot>await ethers.getContract('Loot'),
     SyntheticLoot: <SyntheticLoot>await ethers.getContract('SyntheticLoot'),
   };
+  const {deployer: deployerAddress} = await getNamedAccounts();
   const users = await setupUsers(await getUnnamedAccounts(), contracts);
+  const deployer = await setupUser(deployerAddress, contracts);
   return {
     ...contracts,
     users,
+    deployer,
   };
 });
 
@@ -65,7 +73,7 @@ describe('LootForEveryone Specific', function () {
     expect(owner).to.equal(users[1].address);
   });
 
-  it('uri match', async function () {
+  it('uri match < 8001', async function () {
     const {users, LootForEveryone, Loot, SyntheticLoot} = await setup();
     const tokenId = 3;
     await users[0].Loot.claim(tokenId);
@@ -79,5 +87,62 @@ describe('LootForEveryone Specific', function () {
     console.log({lootUri, lootForEveryoneUri, syntheticUri});
 
     expect(lootUri).to.eq(lootForEveryoneUri);
+  });
+
+  it('uri match > 8000', async function () {
+    const {users, LootForEveryone, Loot, SyntheticLoot} = await setup();
+    const tokenId = 8001;
+    const syntheticUri = await SyntheticLoot.callStatic.tokenURI(
+      hexZeroPad(BigNumber.from(tokenId).toHexString(), 20)
+    );
+    const lootForEveryoneUri = await LootForEveryone.callStatic.tokenURI(
+      tokenId
+    );
+    // console.log({lootUri, lootForEveryoneUri, syntheticUri});
+
+    expect(syntheticUri).to.eq(lootForEveryoneUri);
+  });
+
+  it('uri match = 8000', async function () {
+    const {deployer, LootForEveryone, Loot, SyntheticLoot} = await setup();
+    const tokenId = 8000;
+    await deployer.Loot.ownerClaim(tokenId);
+    const lootUri = await Loot.callStatic.tokenURI(tokenId);
+    const syntheticUri = await SyntheticLoot.callStatic.tokenURI(
+      hexZeroPad(BigNumber.from(tokenId).toHexString(), 20)
+    );
+    const lootForEveryoneUri = await LootForEveryone.callStatic.tokenURI(
+      tokenId
+    );
+    console.log({lootUri, lootForEveryoneUri, syntheticUri});
+
+    expect(lootUri).to.eq(lootForEveryoneUri);
+  });
+
+  it('uri match = 8001', async function () {
+    const {users, LootForEveryone, Loot, SyntheticLoot} = await setup();
+    const tokenId = 8001;
+    const syntheticUri = await SyntheticLoot.callStatic.tokenURI(
+      hexZeroPad(BigNumber.from(tokenId).toHexString(), 20)
+    );
+    const lootForEveryoneUri = await LootForEveryone.callStatic.tokenURI(
+      tokenId
+    );
+
+    expect(syntheticUri).to.eq(lootForEveryoneUri);
+  });
+
+  it('uri match random address', async function () {
+    const {users, LootForEveryone, Loot, SyntheticLoot} = await setup();
+    const tokenId = Wallet.createRandom().address;
+    const syntheticUri = await SyntheticLoot.callStatic.tokenURI(
+      hexZeroPad(BigNumber.from(tokenId).toHexString(), 20)
+    );
+    const lootForEveryoneUri = await LootForEveryone.callStatic.tokenURI(
+      tokenId
+    );
+    // console.log({lootUri, lootForEveryoneUri, syntheticUri});
+
+    expect(syntheticUri).to.eq(lootForEveryoneUri);
   });
 });

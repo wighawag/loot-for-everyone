@@ -127,7 +127,7 @@ contract LootForEveryone is ERC721Base {
     // -------------------------------------------------------------------------------------------------
 
     function _tokenURI(uint256 id) internal view returns (string memory) {
-        require(uint256(address(id)) == id, "NONEXISTENT_TOKEN");
+        require(id > 0 && id < 2**160, "NONEXISTENT_TOKEN");
         if (id < 8001) {
             return _loot.tokenURI(id);
         }
