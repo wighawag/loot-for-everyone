@@ -48,9 +48,10 @@ function fixURI(uri?: string): string {
   return uri;
 }
 
-type NFT = {
+export type NFT = {
   id: string;
   tokenURI: string;
+  claimed: boolean;
   name: string;
   description: string;
   image: string;
@@ -90,7 +91,7 @@ class NFTOfStore extends BaseStore<NFTs> {
         0,
         numTokens
       );
-      const result: {tokenURI: string; id: string}[] = [];
+      const result: {tokenURI: string; id: string, claimed: boolean}[] = [];
       for (const token of tokens) {
         result.push({
           tokenURI: token.tokenURI.replace(
@@ -98,6 +99,7 @@ class NFTOfStore extends BaseStore<NFTs> {
             'image-rendering: pixelated; image-rendering: crisp-edges;'
           ),
           id: token.id,
+          claimed: token.claimed
         });
       }
 
@@ -130,7 +132,7 @@ class NFTOfStore extends BaseStore<NFTs> {
     }
   }
 
-  async _transform(tokens: {tokenURI: string; id: string}[]): Promise<NFT[]> {
+  async _transform(tokens: {tokenURI: string; id: string, claimed: boolean}[]): Promise<NFT[]> {
     // TODO cache
     const newResult: NFT[] = [];
     for (const token of tokens) {
@@ -145,10 +147,12 @@ class NFTOfStore extends BaseStore<NFTs> {
             name: json.name,
             description: json.description,
             image: fixURI(json.image || json.image_url),
+            claimed: token.claimed
           });
         } catch (e) {
           newResult.push({
             id: token.id,
+            claimed: token.claimed,
             tokenURI,
             name: '',
             description: '',
@@ -159,6 +163,7 @@ class NFTOfStore extends BaseStore<NFTs> {
       } else {
         newResult.push({
           id: token.id,
+          claimed: token.claimed,
           tokenURI: '',
           name: '',
           description: '',

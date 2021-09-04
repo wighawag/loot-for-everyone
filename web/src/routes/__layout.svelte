@@ -37,10 +37,10 @@
 <Notifications />
 <NavBar
   links={[
-    {href: '/', title: 'Home'},
-    {href: 'wallet', title: 'Wallet'},
-    {href: 'search', title: 'Search'},
-    {href: 'transmute', title: 'Transmute'}
+    {href: url(''), title: 'Home'},
+    {href: url('wallet/'), title: 'Wallet'},
+    {href: url('search/'), title: 'Search'},
+    {href: url('transmute/'), title: 'Transmute'}
   ]} />
 <slot />
 

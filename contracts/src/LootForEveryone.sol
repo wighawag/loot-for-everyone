@@ -14,11 +14,6 @@ contract LootForEveryone is ERC721Base {
     struct TokenData {
         uint256 id;
         string tokenURI;
-    }
-
-    struct TokenDataToClaim {
-        uint256 id;
-        string tokenURI;
         bool claimed;
     }
 
@@ -64,24 +59,24 @@ contract LootForEveryone is ERC721Base {
         uint256 offset = 0;
         if (start == 0 && !registered) {
             // if start at zero consider unregistered token
-            tokens[0] = TokenData(uint256(owner), _tokenURI(uint256(owner)));
+            tokens[0] = TokenData(uint256(owner), _tokenURI(uint256(owner)), false);
             offset = 1;
             i = 1;
         }
         while (i < num) {
             uint256 id = allTokens.at(start + i - offset);
-            tokens[i] = TokenData(id, _tokenURI(id));
+            tokens[i] = TokenData(id, _tokenURI(id), true);
             i++;
         }
     }
 
     ///@notice get all info in the minimum calls
-    function getTokenDataForIds(uint256[] memory ids) external view returns (TokenDataToClaim[] memory tokens) {
-        tokens = new TokenDataToClaim[](ids.length);
+    function getTokenDataForIds(uint256[] memory ids) external view returns (TokenData[] memory tokens) {
+        tokens = new TokenData[](ids.length);
         for (uint256 i = 0; i < ids.length; i++) {
             uint256 id = ids[i];
             (, bool registered) = _ownerOfAndRegistered(id);
-            tokens[i] = TokenDataToClaim(id, _tokenURI(id), registered);
+            tokens[i] = TokenData(id, _tokenURI(id), registered);
         }
     }
 
