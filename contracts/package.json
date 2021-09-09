@@ -54,7 +54,6 @@
     "typescript": "^4.4.2"
   },
   "scripts": {
-    "postinstall": "patch-package",
     "prepare": "node ./.setup.js && hardhat typechain",
     "lint": "eslint \"**/*.{js,ts}\" && solhint src/**/*.sol",
     "lint:fix": "eslint --fix \"**/*.{js,ts}\" && solhint --fix src/**/*.sol",
