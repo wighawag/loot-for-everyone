@@ -87,6 +87,7 @@ describe('LootForEveryone Specific', function () {
     console.log({lootUri, lootForEveryoneUri, syntheticUri});
 
     expect(lootUri).to.eq(lootForEveryoneUri);
+    expect(syntheticUri).to.eq(lootForEveryoneUri);
   });
 
   it('uri match > 8000', async function () {

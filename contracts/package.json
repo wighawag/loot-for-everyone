@@ -1,5 +1,5 @@
 {
-  "name": "template-ethereum-contracts",
+  "name": "loot-for-everyone-contracts",
   "version": "0.1.0",
   "description": "Template to develop ethereum smart contracts",
   "engines": {
@@ -61,6 +61,7 @@
     "format": "prettier --check \"**/*.{ts,js,sol}\"",
     "format:fix": "prettier --write \"**/*.{ts,js,sol}\"",
     "compile": "hardhat compile",
+    "export-artifacts": "hardhat export-artifacts export/artifacts --include LootForEveryone",
     "void:deploy": "hardhat deploy",
     "test": "cross-env HARDHAT_DEPLOY_FIXTURE=true HARDHAT_COMPILE=true mocha --bail --recursive test",
     "gas": "cross-env REPORT_GAS=true hardhat test",
